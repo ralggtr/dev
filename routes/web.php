@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChirpController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -15,6 +16,15 @@ use Inertia\Inertia;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/dashboard', function() {
+    return Intertia::render('Dashboard');
+})->middleware(['auth','verified'])->name('dashboard');
+
+Route::resource('chirps', ChirpController::class)
+    ->only(['index', 'store'])
+    ->only(['index', 'store', 'update','destroy'])
+    ->middleware(['auth', 'verified']);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
